@@ -91,3 +91,17 @@ history <- model %>% fit_generator(  train_generator,
                                      epochs = 10,  
                                      validation_data = validation_generator,
                                      validation_steps = 10)
+
+# let's save the model
+models.dir <- file.path(cur.dir, "models")
+
+# do a check to see if files have been aggregated, otherwise call the script that does it
+if (checkDirectoryExists(models.dir) != TRUE) {
+  dir.create(models.dir)
+}
+
+model %>% save_model_hdf5(file.path(models.dir, "horses_vs_humans_1.h5"))
+
+plot(history)
+
+
