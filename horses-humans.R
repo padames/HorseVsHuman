@@ -83,3 +83,11 @@ validation_generator <- flow_images_from_directory(  file.path(cur.dir, "data", 
                                                      color_mode = "rgb",
                                                      class_mode = "binary")
 
+
+# bacth <- generator_next(train_generator)
+
+history <- model %>% fit_generator(  train_generator,  
+                                     steps_per_epoch = 50,  
+                                     epochs = 10,  
+                                     validation_data = validation_generator,
+                                     validation_steps = 10)
