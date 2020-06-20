@@ -1,0 +1,8 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+data/all-horses/*
+data/all-humans/*
+data/original-test/*
+data/original-train/*
