@@ -24,6 +24,8 @@ if (checkDirectoryExists(data.horses.dir) == TRUE) {
     source("aggregate-files.R")
 }
 
+rm(cur.dir, data.horses.dir)
+
 # split the data into train, validation and test
 
 cur.dir <- getwd()
@@ -35,11 +37,49 @@ if (checkDirectoryExists(train.horses.dir) == TRUE) {
   if (length(f.lst) < 439)
     source("split-files.R")
 }
-
+rm(cur.dir,train.horses.dir)
 
 # building the network
 
+library(keras)
+
+model <- keras_model_sequential() %>%
+  layer_conv_2d(filters = 32, kernel_size = c(3, 3), activation = "relu",                
+                input_shape = c(300, 300, 3)) %>%  
+  layer_max_pooling_2d(pool_size = c(2, 2)) %>%  
+  layer_conv_2d(filters = 64, kernel_size = c(3, 3), activation = "relu") %>%  
+  layer_max_pooling_2d(pool_size = c(2, 2)) %>%  
+  layer_conv_2d(filters = 128, kernel_size = c(3, 3), activation = "relu") %>%  
+  layer_max_pooling_2d(pool_size = c(2, 2)) %>%  
+  layer_conv_2d(filters = 128, kernel_size = c(3, 3), activation = "relu") %>%  
+  layer_max_pooling_2d(pool_size = c(2, 2)) %>%  
+  layer_flatten() %>%  
+  layer_dense(units = 512, activation = "relu") %>%  
+  layer_dense(units = 1, activation = "sigmoid")
+
+summary(model)
+
+model %>% compile(  loss = "binary_crossentropy",  
+                    optimizer = optimizer_rmsprop(lr = 1e-4),  
+                    metrics = c("acc"))
 
 
+train_datagen <- image_data_generator(rescale = 1/255)
+validation_datagen <- image_data_generator(rescale = 1/255)
 
+cur.dir <- getwd()
+
+train_generator <- flow_images_from_directory(  file.path(cur.dir, "data", "train"),
+                                                generator = train_datagen,           
+                                                target_size = c(300, 300), 
+                                                batch_size = 20,
+                                                color_mode = "rgb",
+                                                class_mode = "binary")
+
+validation_generator <- flow_images_from_directory(  file.path(cur.dir, "data", "validation"),
+                                                     generator = validation_datagen,
+                                                     target_size = c(300, 300),  
+                                                     batch_size = 20,  
+                                                     color_mode = "rgb",
+                                                     class_mode = "binary")
 
