@@ -96,7 +96,7 @@ history <- model %>% fit_generator(  train_generator,
 models.dir <- file.path(cur.dir, "models")
 model.weights.dir <- file.path(cur.dir, "model-weights")
 
-# do a check to see if files have been aggregated, otherwise call the script that does it
+# do a check to see if the modeld directory exists
 if (checkDirectoryExists(models.dir) != TRUE) {
   dir.create(models.dir)
 }
