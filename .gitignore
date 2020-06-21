@@ -6,3 +6,6 @@ data/all-horses/*
 data/all-humans/*
 data/original-test/*
 data/original-train/*
+*.orig
+models/*
+model-weights/*

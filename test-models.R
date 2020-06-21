@@ -29,6 +29,8 @@ test.horse.dir <- file.path(cur.dir,  "data", "test", "horses")
 
 results <- list(loss=c(), acc=c())
 test.dir <- file.path(cur.dir, "data", "test")
+# test.dir <- file.path(cur.dir, "data", "original-test")
+
 models.fnames <- list.files(models.dir)
 models.fnames <- paste0(file.path(models.dir, models.fnames))
 for (i in 1:length(models.fnames)) {
