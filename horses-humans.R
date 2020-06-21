@@ -94,13 +94,22 @@ history <- model %>% fit_generator(  train_generator,
 
 # let's save the model
 models.dir <- file.path(cur.dir, "models")
+  model.weights.dir <- file.path(cur.dir, "model-weights")
 
 # do a check to see if files have been aggregated, otherwise call the script that does it
 if (checkDirectoryExists(models.dir) != TRUE) {
   dir.create(models.dir)
 }
 
+if (checkDirectoryExists(model.weights.dir) != TRUE) {
+  dir.create(model.weights.dir)
+}
+
+
+# save the model and the weights separately to allow loading them on python:
 model %>% save_model_hdf5(file.path(models.dir, "horses_vs_humans_1.h5"))
+model_weights %>% save_model_weights_hdf5(file.path(model.weights.dir, "models/horses_vs_humans_wgts_1.h5"))
+
 
 plot(history)
 
