@@ -42,6 +42,7 @@ rm(cur.dir,train.horses.dir)
 # building the network
 
 library(keras)
+use_session_with_seed(disable_gpu = 2941, disable_gpu = TRUE)
 
 model <- keras_model_sequential() %>%
   layer_conv_2d(filters = 32, kernel_size = c(3, 3), activation = "relu",                
@@ -108,8 +109,7 @@ if (checkDirectoryExists(model.weights.dir) != TRUE) {
 
 # save the model and the weights separately to allow loading them on python:
 model %>% save_model_hdf5(file.path(models.dir, "horses_vs_humans_1.h5"))
-model_weights %>% save_model_weights_hdf5(file.path(model.weights.dir, "horses_vs_humans_wgts_1.h5"))
-
+model %>% save_model_weights_hdf5(file.path(model.weights.dir, "horses_vs_humans_wgts_1.h5"))
 
 plot(history)
 
