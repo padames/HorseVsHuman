@@ -1,5 +1,8 @@
 #!/usr/bin/env Rscript
 
+# This script creates the Laurence Moroney convnet posted in the notebook:
+# https://github.com/Tiwarim386/Horse-vs-Human-Classifier/blob/master/Horse_vs_Human_Classifier_Using_Tensorflow.ipynb
+
 library(checkmate)
 
 cur.dir <- getwd()
@@ -46,14 +49,16 @@ keras::k_clear_session()
 # use_session_with_seed(seed = 2941, disable_gpu = TRUE)
 
 model <- keras_model_sequential() %>%
+  layer_conv_2d(filters = 16, kernel_size = c(3, 3), activation = "relu",                
+                input_shape = c(300, 300, 3)) %>%  
   layer_conv_2d(filters = 32, kernel_size = c(3, 3), activation = "relu",                
                 input_shape = c(300, 300, 3)) %>%  
   layer_max_pooling_2d(pool_size = c(2, 2)) %>%  
   layer_conv_2d(filters = 64, kernel_size = c(3, 3), activation = "relu") %>%  
   layer_max_pooling_2d(pool_size = c(2, 2)) %>%  
-  layer_conv_2d(filters = 128, kernel_size = c(3, 3), activation = "relu") %>%  
+  layer_conv_2d(filters = 64, kernel_size = c(3, 3), activation = "relu") %>%  
   layer_max_pooling_2d(pool_size = c(2, 2)) %>%  
-  layer_conv_2d(filters = 128, kernel_size = c(3, 3), activation = "relu") %>%  
+  layer_conv_2d(filters = 64, kernel_size = c(3, 3), activation = "relu") %>%  
   layer_max_pooling_2d(pool_size = c(2, 2)) %>%  
   layer_flatten() %>%  
   layer_dense(units = 512, activation = "relu") %>%  
@@ -109,8 +114,8 @@ if (checkDirectoryExists(model.weights.dir) != TRUE) {
 
 
 # save the model and the weights separately to allow loading them on python:
-model %>% save_model_hdf5(file.path(models.dir, "horses_vs_humans_2.h5"))
-model %>% save_model_weights_hdf5(file.path(model.weights.dir, "horses_vs_humans_wgts_2.h5"))
+model %>% save_model_hdf5(file.path(models.dir, "horses_vs_humans_Moroney1.h5"))
+model %>% save_model_weights_hdf5(file.path(model.weights.dir, "horses_vs_humans_wgts_Moroney1.h5"))
 
 plot(history)
 

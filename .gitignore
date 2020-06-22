@@ -9,3 +9,6 @@ data/original-train/*
 *.orig
 models/*
 model-weights/*
+.ipynb_checkpoints/*
+*/.ipynb_checkpoints/*
+*284546*
